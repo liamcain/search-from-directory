@@ -13,7 +13,7 @@ export default class SearchFromDirectoryPlugin extends Plugin {
                 const folderPath = fileOrFolder.path;
                 (this.app as any).internalPlugins
                   .getPluginById("global-search")
-                  .instance.openGlobalSearch(`path:"${folderPath}" tag:task/todo`);
+                  .instance.openGlobalSearch(`path:"${folderPath}"`);
               });
           });
         }
