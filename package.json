@@ -1,0 +1,23 @@
+{
+  "name": "search-from-directory",
+  "version": "0.0.1",
+  "description": "Adds a menu item to the file explorer for searching in a folder",
+  "main": "main.js",
+  "scripts": {
+    "dev": "node esbuild.config.mjs",
+    "build": "node esbuild.config.mjs production"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^16.11.6",
+    "@typescript-eslint/eslint-plugin": "^5.2.0",
+    "@typescript-eslint/parser": "^5.2.0",
+    "builtin-modules": "^3.2.0",
+    "esbuild": "0.13.12",
+    "obsidian": "^0.13.21",
+    "tslib": "2.3.1",
+    "typescript": "4.4.4"
+  }
+}
