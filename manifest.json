@@ -1,7 +1,7 @@
 {
   "id": "search-from-directory",
   "name": "Search from directory",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "minAppVersion": "0.12.5",
   "description": "",
   "author": "liamcain",

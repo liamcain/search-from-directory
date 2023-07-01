@@ -1,6 +1,6 @@
 {
   "name": "search-from-directory",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Adds a menu item to the file explorer for searching in a folder",
   "main": "main.js",
   "scripts": {
