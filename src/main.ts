@@ -38,7 +38,7 @@ export default class SearchFromDirectoryPlugin extends Plugin {
       })
     );
   }
-  searchDir(folder: TFolder | null, selection = "", select = false) {
+  async searchDir(folder: TFolder | null, selection = "", select = false) {
     let prefix;
     if (folder) {
       const folderPath = folder.path;
@@ -55,6 +55,11 @@ export default class SearchFromDirectoryPlugin extends Plugin {
     (this.app as any).internalPlugins
       .getPluginById("global-search")
       .instance.openGlobalSearch(prefix + selection);
+
+    // ensure text has been entered into the search input
+    const searchLeaf = app.workspace.getLeavesOfType('search')[0];
+    const search = await searchLeaf.open(searchLeaf.view);
+
     const searchInput = document.querySelector(
       ".search-input-container input"
     ) as HTMLInputElement;
@@ -77,8 +82,7 @@ export default class SearchFromDirectoryPlugin extends Plugin {
   }
 
   selectInput(searchInput: HTMLInputElement, start: number, end: number) {
-    setTimeout(() => {
-      searchInput.setSelectionRange(start, end);
-    },250);
+    // no need to use setTimeout
+    searchInput.setSelectionRange(start, end);
   }
 }
