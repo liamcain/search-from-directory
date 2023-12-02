@@ -15,7 +15,7 @@ export default class SearchFromDirectoryPlugin extends Plugin {
           item
             .setTitle("Search in folder")
             .setIcon("search")
-            .onClick(() => {
+            .onClick(async () => {
               this.searchDir(folder);
             });
         });
@@ -28,16 +28,16 @@ export default class SearchFromDirectoryPlugin extends Plugin {
           item
             .setTitle("search in parent directory")
             .setIcon("search")
-            .onClick((evt) => {
+            .onClick(async (evt) => {
               const selection = editor.getSelection();
-              this.searchDir(null, selection, true);
+              await this.searchDir(null, selection, true);
             });
         });
       })
     );
   }
 
-  searchDir(folder: TFolder | null, selection = "", select = false) {
+  async searchDir(folder: TFolder | null, selection = "", select = false) {
     let prefix;
     const { workspace } = this.app
 
@@ -59,7 +59,7 @@ export default class SearchFromDirectoryPlugin extends Plugin {
 
     // ensure text has been entered into the search input
     const searchLeaf = workspace.getLeavesOfType('search')[0];
-    workspace.revealLeaf(searchLeaf)
+    const search = await searchLeaf.open(searchLeaf.view);
 
     const searchInput = document.querySelector(
       ".search-input-container input"
@@ -81,8 +81,6 @@ export default class SearchFromDirectoryPlugin extends Plugin {
   }
 
   selectInput(searchInput: HTMLInputElement, start: number, end: number) {
-    setTimeout(() => {
-      searchInput.setSelectionRange(start, end);
-    },250);
+    searchInput.setSelectionRange(start, end);
   }
 }
