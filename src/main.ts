@@ -1,10 +1,8 @@
 import {
   Editor,
-  MarkdownView,
   Menu,
   MenuItem,
   Plugin,
-  TAbstractFile,
   TFolder,
 } from "obsidian";
 
@@ -38,18 +36,21 @@ export default class SearchFromDirectoryPlugin extends Plugin {
       })
     );
   }
-  async searchDir(folder: TFolder | null, selection = "", select = false) {
+
+  searchDir(folder: TFolder | null, selection = "", select = false) {
     let prefix;
+    const { workspace } = this.app
+
     if (folder) {
       const folderPath = folder.path;
-      prefix = `path:(${folderPath}) `;
+      prefix = `path:"${folderPath}" `;
     } else {
-      const filePath = this.app.workspace.getActiveFile()?.path;
+      const filePath = workspace.getActiveFile()?.path;
       const folderPath = filePath?.split("/").slice(0, -1).join("/");
       if (folderPath !== filePath) {
-        prefix = `path:(${folderPath}) `;
+        prefix = `path:"${folderPath}" `;
       } else {
-        prefix = "";
+        prefix = "";//root
       }
     }
     (this.app as any).internalPlugins
@@ -57,32 +58,31 @@ export default class SearchFromDirectoryPlugin extends Plugin {
       .instance.openGlobalSearch(prefix + selection);
 
     // ensure text has been entered into the search input
-    const searchLeaf = app.workspace.getLeavesOfType('search')[0];
-    const search = await searchLeaf.open(searchLeaf.view);
+    const searchLeaf = workspace.getLeavesOfType('search')[0];
+    workspace.revealLeaf(searchLeaf)
 
     const searchInput = document.querySelector(
       ".search-input-container input"
     ) as HTMLInputElement;
-    if (select) { 
-            this.selectInput(
-              searchInput,
-              prefix.length,
-              searchInput.value.length
-            );
+    if (select) {
+      this.selectInput(
+        searchInput,
+        prefix.length,
+        searchInput.value.length
+      );
 
     } else {
       this.selectInput(
         searchInput,
-        searchInput.value.length,
-        searchInput.value.length
+        prefix.length,
+        prefix.length
       );
-      
     }
-
   }
 
   selectInput(searchInput: HTMLInputElement, start: number, end: number) {
-    // no need to use setTimeout
-    searchInput.setSelectionRange(start, end);
+    setTimeout(() => {
+      searchInput.setSelectionRange(start, end);
+    },250);
   }
 }
