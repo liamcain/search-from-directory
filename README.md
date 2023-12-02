@@ -1,6 +1,7 @@
 # Search from directory 🔎
 
 Adds a menu item to the file explorer for searching in a folder.
+Adds a menu item to the editor-menu of the active file for searching in it's parent folder.
 
 ## Say Thanks 🙏
 
